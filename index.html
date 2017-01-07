@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="awt-client">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="Gotta Catch 'Em All!">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.png">
+
+    <title>Poké Cathcer</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="assets/libs/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="assets/css/style.css" rel="stylesheet">
+    <!-- Angular dependencies -->
+    <script src="assets/libs/angular/angular.min.js"></script>
+    <script src="assets/libs/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <!-- Angular JWT Helper -->
+    <script src="assets/libs/angular-jwt/dist/angular-jwt.js"></script>
+    <!-- Angular Storage Helper -->
+    <script src="assets/libs/ngstorage/ngStorage.min.js"></script>
+    <!-- Lodash library dependency -->
+    <script src="assets/libs/lodash/dist/lodash.min.js"></script>
+  </head>
+
+  <body>
+    <header id="header"
+            ng-include="'app/shared/header/header.html'">
+    </header>
+
+    <section id="main" ui-view="content"></section>
+
+    <!-- ======================= Angular  components ======================= -->
+    <script src="app/app.module.js"></script>
+    <script src="app/app.route.js"></script>
+  </body>
+</html>
