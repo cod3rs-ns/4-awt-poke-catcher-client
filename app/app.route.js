@@ -12,7 +12,7 @@ angular
     ])
     .constant(
         'CONFIG', {
-            'SERVICE_URL': 'http://localhost:9000/api/',
+            'SERVICE_URL': 'http://localhost:9000/api',
             'AUTH_TOKEN': 'X-Auth-Token'
         }
     )
@@ -29,13 +29,24 @@ angular
             .state('welcome', {
                 url: "/welcome",
                 data: {
-                    pageTitle: 'Poké Cathcer'
+                    pageTitle: 'Poké Cathcer | Home'
                 },
                 views: {
                     'content@': {
-                        templateUrl: "app/components/welcome/welcome.html"//,
-                        // controller: "WelcomeController",
-                        // controllerAs: "welcomeVm"
+                        templateUrl: "app/components/welcome/welcome.html"
+                    }
+                }
+            })
+            .state('register', {
+                url: "/signup",
+                data: {
+                    pageTitle: 'Poké Cathcer | Sign up'
+                },
+                views: {
+                    'content@': {
+                        templateUrl: "app/components/register/register.html",
+                        controller: "RegisterController",
+                        controllerAs: "registerVm"
                     }
                 }
             });
