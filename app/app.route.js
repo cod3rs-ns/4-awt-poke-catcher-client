@@ -62,6 +62,19 @@ angular
                         controllerAs: "loginVm"
                     }
                 }
+            })
+            .state('dashboard', {
+                url: "/dashboard",
+                data: {
+                    pageTitle: 'Poké Cathcer | Dashboard'
+                },
+                views: {
+                    'content@': {
+                        templateUrl: "app/components/dashboard/dashboard.html",
+                        controller: "DashboardController",
+                        controllerAs: "dashboardVm"
+                    }
+                }
             });
 
         $httpProvider.interceptors.push(['$q', '$location', '$localStorage', '_', function ($q, $location, $localStorage, _) {
