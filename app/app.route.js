@@ -49,6 +49,19 @@ angular
                         controllerAs: "registerVm"
                     }
                 }
+            })
+            .state('login', {
+                url: "/signin",
+                data: {
+                    pageTitle: 'Poké Cathcer | Sign in'
+                },
+                views: {
+                    'content@': {
+                        templateUrl: "app/components/login/login.html",
+                        controller: "LoginController",
+                        controllerAs: "loginVm"
+                    }
+                }
             });
 
         $httpProvider.interceptors.push(['$q', '$location', '$localStorage', '_', function ($q, $location, $localStorage, _) {
@@ -57,7 +70,7 @@ angular
                 'request': function (config) {
                     var token = $localStorage.token;
 
-                    if (token != "null") {
+                    if (!_.isUndefined(token)) {
                         config.headers['X-Auth-Token'] = token;
                     }
                     return config;
