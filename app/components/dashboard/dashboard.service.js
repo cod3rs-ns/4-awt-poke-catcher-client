@@ -15,9 +15,8 @@
 
         return service;
 
-        function getMyApps() {
-            // FIXME - Change to MY Apps instead of ALL
-            return $http.get(CONFIG.SERVICE_URL + '/applications')
+        function getMyApps(user) {
+            return $http.get(CONFIG.SERVICE_URL + '/applications/users/' + user)
               .then(function successCallback(response) {
                   return response;
               }, function errorCallback(response) {
