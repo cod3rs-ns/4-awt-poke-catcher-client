@@ -5,6 +5,10 @@
 <div class="container">
   <div class="row">
       <div class="col-xs-12 col-md-8">
+        <div class="alert alert-danger" role="alert" ng-if="loginVm.wrongLogin">
+            {{loginVm.message}}
+        </div>
+
         <form role="form" ng-submit="loginVm.auth();" >
           <!-- Username register input field -->
           <div class="form-group">

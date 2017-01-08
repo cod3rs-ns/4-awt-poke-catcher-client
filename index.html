@@ -28,7 +28,8 @@
 
   <body>
     <header id="header"
-            ng-include="'app/shared/header/header.html'">
+            ng-include="'app/shared/header/header.html'"
+            ng-controller="HeaderController as headerVm">
     </header>
 
     <section id="main" ui-view="content" style="margin-top: 50px;"></section>
@@ -36,6 +37,8 @@
     <!-- ======================= Angular  components ======================= -->
     <script src="app/app.module.js"></script>
     <script src="app/app.route.js"></script>
+
+    <script src="app/shared/header/header.controller.js"></script>
 
     <script src="app/components/register/register.controller.js"></script>
     <script src="app/components/register/register.service.js"></script>

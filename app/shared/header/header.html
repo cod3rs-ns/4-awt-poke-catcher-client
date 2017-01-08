@@ -8,13 +8,14 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" ui-sref="welcome">Logo</a>
+      <a class="navbar-brand" ui-sref="welcome">{{headerVm.title}}</a>
     </div>
     <div id="navbar" class="collapse navbar-collapse">
       <ul class="nav navbar-nav navbar-right">
-        <li><a ui-sref="dashboard">Dashboard</a></li>
-        <li><a ui-sref="login">Sign in</a></li>
-        <li><a ui-sref="register">Sign up</a></li>
+        <li><a ng-if="headerVm.$storage.token != null" ui-sref="dashboard">Dashboard</a></li>
+        <li><a ng-if="headerVm.$storage.token != null" ng-click="headerVm.logout();">Log out</a></li>
+        <li><a ng-if="headerVm.$storage.token == null" ui-sref="login">Sign in</a></li>
+        <li><a ng-if="headerVm.$storage.token == null" ui-sref="register">Sign up</a></li>
       </ul>
     </div>
   </div>
