@@ -25,7 +25,6 @@
         function getRegistredApplications() {
             dashboardService.getMyApps()
               .then(function(response) {
-                  $log.info(response.data);
                   dashboardVm.apps = response.data;
               })
               .catch(function (error) {

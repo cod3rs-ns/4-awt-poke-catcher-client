@@ -20,19 +20,22 @@
             loginService.auth(loginVm.credentials.username, loginVm.credentials.password)
                 .then(function(response) {
                     var token = response.data.token;
-                        // var tokenPayload = jwtHelper.decodeToken(token);
 
-                        if (!_.isUndefined(token)) {
-                            $http.defaults.headers.common[CONFIG.AUTH_TOKEN] = token;
+                    if (!_.isUndefined(token)) {
+                        loginVm.wrongLogin = true;
 
-                            $log.info(token);
-                            // $log.info(tokenPayload.sub);
+                        var tokenPayload = jwtHelper.decodeToken(token);
+                        $http.defaults.headers.common[CONFIG.AUTH_TOKEN] = token;
 
-                            $localStorage.token = token;
-                            // $localStorage.user = tokenPayload.sub;
+                        $localStorage.token = token;
+                        $localStorage.user = tokenPayload.mail;
 
-                            $location.path('/');
-                        }
+                        $location.path('/dashboard');
+                    }
+                    else {
+                        loginVm.wrongLogin = true;
+                        loginVm.message = response.data.message;
+                    }
                 })
                 .catch(function (error) {
                     $log.error(error);
