@@ -24,7 +24,7 @@
         }
 
         function getRegistredApplications() {
-            dashboardService.getMyApps()
+            dashboardService.getMyApps($localStorage.user)
               .then(function(response) {
                   dashboardVm.apps = response.data;
               })

@@ -78,7 +78,7 @@ angular
                 }
             })
             .state('events', {
-                url: "/events/:applicationName",
+                url: "/events/:applicationId",
                 data: {
                     pageTitle: "Poké Cathcer | Application's events"
                 },

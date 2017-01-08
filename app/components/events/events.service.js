@@ -9,14 +9,13 @@
 
     function eventsService($http, CONFIG) {
         var service = {
-          getEventsByName: getEventsByName
+          getEventsByAppId: getEventsByAppId
         };
 
         return service;
 
-        function getEventsByName(applicationName) {
-            // FIXME - Change to Events for Application instead of ALL Events
-            return $http.get(CONFIG.SERVICE_URL + '/events')
+        function getEventsByAppId(appId) {
+            return $http.get(CONFIG.SERVICE_URL + '/events/' + appId)
               .then(function successCallback(response) {
                   return response;
               }, function errorCallback(response) {

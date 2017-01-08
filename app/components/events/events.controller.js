@@ -19,11 +19,11 @@
         activate();
 
         function activate() {
-            eventsVm.getEvents($stateParams.applicationName);
+            eventsVm.getEvents($stateParams.applicationId);
         }
 
-        function getEvents(appName) {
-            eventsService.getEventsByName(appName)
+        function getEvents(appId) {
+            eventsService.getEventsByAppId(appId)
               .then(function(response) {
                   eventsVm.events = response.data;
               })
