@@ -22,6 +22,9 @@
         <h3>{{app.name}}</h3>
         <p>{{app.description}}</p>
         <p>{{app.repo}}</p>
+        <div class="row">
+          <a ui-sref="events({applicationName: app.name})" type="button" class="btn btn-default pull-right">Show event logs</a>
+        </div>
         <hr/>
       </div>
     </div>
