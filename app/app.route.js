@@ -76,6 +76,19 @@ angular
                         controllerAs: "dashboardVm"
                     }
                 }
+            })
+            .state('events', {
+                url: "/events/:applicationName",
+                data: {
+                    pageTitle: "Poké Cathcer | Application's events"
+                },
+                views: {
+                    'content@': {
+                        templateUrl: "app/components/events/events.html",
+                        controller: "EventsController",
+                        controllerAs: "eventsVm"
+                    }
+                }
             });
 
         $httpProvider.interceptors.push(['$q', '$location', '$localStorage', '_', function ($q, $location, $localStorage, _) {
