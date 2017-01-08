@@ -9,7 +9,8 @@
 
     function dashboardService($http, CONFIG) {
         var service = {
-          getMyApps: getMyApps
+          getMyApps: getMyApps,
+          registerApp: registerApp
         };
 
         return service;
@@ -21,6 +22,15 @@
                   return response;
               }, function errorCallback(response) {
                   throw 'cannot-retrieve-applications';
+              });
+        };
+
+        function registerApp(app) {
+            return $http.post(CONFIG.SERVICE_URL + '/applications', app)
+              .then(function successCallback(response) {
+                  return response;
+              }, function errorCallback(response) {
+                  throw 'cannot-register-app';
               });
         };
     }
