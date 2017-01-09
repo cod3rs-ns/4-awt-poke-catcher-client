@@ -13,9 +13,13 @@
         // Variable binders
         dashboardVm.apps = [];
 
+        // FIXME For each application
+        dashboardVm.isCollapsed = true;
+
         // Methods
         dashboardVm.getRegistredApplications = getRegistredApplications;
         dashboardVm.registerApplication = registerApplication;
+        dashboardVm.addUser = addUser;
 
         activate();
 
@@ -48,10 +52,8 @@
 
             modalInstance.result
                 .then(function(app) {
-                    $log.info(app);
                     dashboardService.registerApp(app)
                       .then(function(response) {
-                          $log.info(response.data);
                           dashboardVm.apps.push(response.data);
                       })
                       .catch(function (error) {
@@ -60,6 +62,19 @@
                 }, function () {
                     $log.info('Modal dismissed at: ' + _.now());
                 });
-        }
+        };
+
+        function addUser(application) {
+            application.users.push(dashboardVm.user);
+
+            dashboardService.updateApp(application)
+              .then(function(response) {
+                  dashboardVm.user = "";
+                  $log.info(response.data);
+              })
+              .catch(function (error) {
+                  $log.error(error);
+              });
+        };
     }
 })();
