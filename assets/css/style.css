@@ -1,3 +1,15 @@
 .jumbotron-header {
   text-align: center;
 }
+
+.registered-users {
+  background-color: #fafafa;
+  border: 1px solid #eee;
+  margin-top: 8px;
+  padding: 16px 8px;
+}
+
+.registered-users > p {
+  border-bottom: 1px solid #eee;
+  padding: 8px;
+}

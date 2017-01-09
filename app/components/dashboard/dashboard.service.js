@@ -10,7 +10,8 @@
     function dashboardService($http, CONFIG) {
         var service = {
           getMyApps: getMyApps,
-          registerApp: registerApp
+          registerApp: registerApp,
+          updateApp: updateApp
         };
 
         return service;
@@ -32,5 +33,14 @@
                   throw 'cannot-register-app';
               });
         };
+
+        function updateApp(app) {
+            return $http.put(CONFIG.SERVICE_URL + '/applications/' + app._id, app)
+              .then(function successCallback(response) {
+                  return response;
+              }, function errorCallback(response) {
+                  throw 'cannot-update-app';
+              });
+        }
     }
 })();
