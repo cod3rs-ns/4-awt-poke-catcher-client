@@ -1,0 +1,49 @@
+<div class="container" style="margin-top: 60px;">
+  <div class="row">
+    <!-- Sidebar -->
+    <div class="col-xs-12 col-md-3" style="text-align: center;">
+      <img src="http://resources1.news.com.au/images/2009/01/11/va1237349596788/Heath-Ledger-joker-golden-globes-6435336.jpg" alt="..."
+          width="96px" height="96px" class="img-circle">
+      <h4>Dragutin Marjanović</h4>
+    </div>
+    <div class="col-xs-12 col-md-9">
+      <!-- Register new application button -->
+      <div class="row">
+        <button type="button" class="btn btn-success pull-right" ng-click="dashboardVm.registerApplication()">
+          <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+          Register application
+        </button>
+      </div>
+
+      <hr/>
+
+      <!-- List of registred applications -->
+      <div ng-repeat="app in dashboardVm.apps">
+        <h3>{{app.name}}</h3>
+        <p>{{app.description}}</p>
+        <p>{{app.repo}}</p>
+        <div class="row">
+          <a ui-sref="events({applicationId: app._id})" type="button" class="btn btn-default pull-right">Show event logs</a>
+          <button type="button" class="btn btn-default pull-right" style="margin-right: 8px;"
+              ng-click="dashboardVm.isCollapsed = !dashboardVm.isCollapsed">
+              See registered users
+          </button>
+        </div>
+      	<div class="registered-users" uib-collapse="dashboardVm.isCollapsed">
+      		<p ng-repeat="user in app.users">{{user}}</p>
+          <div class="invite-user-form">
+            <h5>Enter user's email</h5>
+            <p>You'll only be able to find a Poke Catch user by their email address if they've chosen to list it publicly. Otherwise, use their username instead.</p>
+            <div class="input-group">
+              <input type="email" ng-model="dashboardVm.user" class="form-control" placeholder="Email of user...">
+              <span class="input-group-btn">
+                <button class="btn btn-default" type="button" ng-click="dashboardVm.addUser(app);">Add user</button>
+              </span>
+            </div>
+          </div>
+      	</div>
+        <hr/>
+      </div>
+    </div>
+  </div>
+</div>

@@ -18,6 +18,8 @@
     <!-- Angular dependencies -->
     <script src="assets/libs/angular/angular.min.js"></script>
     <script src="assets/libs/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <!-- Angular Bootstrap Helper -->
+    <script src="assets/libs/angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <!-- Angular JWT Helper -->
     <script src="assets/libs/angular-jwt/dist/angular-jwt.js"></script>
     <!-- Angular Storage Helper -->
@@ -28,13 +30,29 @@
 
   <body>
     <header id="header"
-            ng-include="'app/shared/header/header.html'">
+            ng-include="'app/shared/header/header.html'"
+            ng-controller="HeaderController as headerVm">
     </header>
 
-    <section id="main" ui-view="content"></section>
+    <section id="main" ui-view="content" style="margin-top: 50px;"></section>
 
     <!-- ======================= Angular  components ======================= -->
     <script src="app/app.module.js"></script>
     <script src="app/app.route.js"></script>
+
+    <script src="app/shared/header/header.controller.js"></script>
+
+    <script src="app/components/register/register.controller.js"></script>
+    <script src="app/components/register/register.service.js"></script>
+
+    <script src="app/components/login/login.controller.js"></script>
+    <script src="app/components/login/login.service.js"></script>
+
+    <script src="app/components/dashboard/dashboard.controller.js"></script>
+    <script src="app/components/dashboard/dashboard.service.js"></script>
+    <script src="app/components/dashboard/application-create.controller.js"></script>
+
+    <script src="app/components/events/events.controller.js"></script>
+    <script src="app/components/events/events.service.js"></script>
   </body>
 </html>

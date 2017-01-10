@@ -7,7 +7,7 @@
     "Dragutin Marjanović <dmarjanovic94@gmail.com>",
     "Aleksa Zrnić"
   ],
-  "description": "Poké Cathcer: Gotta Catch 'Em All! - https://www.youtube.com/watch?v=SVp-zIONsrs - Version 1.0",
+  "description": "Poké Cathcer: Gotta Catch 'Em All! - https://www.youtube.com/watch?v=SVp-zIONsrs - Version 1.1",
   "main": "index.html",
   "license": "MIT",
   "private": true,
@@ -22,6 +22,7 @@
     "bootstrap": "^3.3.7",
     "angular": "^1.6.1",
     "angular-ui-router": "^0.3.2",
+    "angular-bootstrap": "^2.4.0",
     "angular-jwt": "^0.1.8",
     "ngstorage": "^0.3.11",
     "lodash": "^4.17.3"
