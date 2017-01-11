@@ -7,13 +7,41 @@
       <h4>Dragutin Marjanović</h4>
     </div>
     <div class="col-xs-12 col-md-9">
-      <!-- List of registred applications -->
-      <div ng-repeat="event in eventsVm.events">
-        <h3>{{event.fragment}}</h3>
-        <p>{{event.versionNumber}}</p>
-        <p>{{event.stack}}</p>
-        <hr/>
+      <div class="row">
+          <div class="form-group col-xs-12 col-md-6">
+             <span ng-init="eventsVm.groupBy = 'fragment'"></span>
+             <select class="form-control" name="group-by" id="group-by"
+                ng-model="eventsVm.groupBy"
+                ng-change="eventsVm.groupByChanged()">
+                <option value="fragment" selected>Fragments</option>
+      			    <option value="versionNumber">Application version</option>
+             </select>
+          </div>
+          <div class="form-group col-xs-12 col-md-6">
+             <input class="form-control" type="text" name="filter-by" id="filter-by"
+                placeholder="Filter by choosen group..."
+                ng-model="eventsVm.filterBy"/>
+          </div>
       </div>
+
+      <hr/>
+
+      <!-- List of registred events in application -->
+      <uib-accordion close-others="oneAtATime">
+        <div uib-accordion-group class="panel-default" is-open="$first"
+          ng-repeat="key in eventsVm.eventGroups | filter: eventsVm.filterBy" ng-if="eventsVm.groupBy">
+          <uib-accordion-heading>
+            {{key}} <span class="pull-right label label-default">{{eventsVm.eventsGrouped[key].length}}</span>
+          </uib-accordion-heading>
+          <div ng-repeat="event in eventsVm.events[key]">
+            <h3>{{event.fragment}}</h3>
+            <p>{{event.versionNumber}}</p>
+            <p>{{event.stack}}</p>
+            <hr ng-hide="$last"/>
+          </div>
+        </div>
+      </uib-accordion>
+
     </div>
   </div>
 </div>
