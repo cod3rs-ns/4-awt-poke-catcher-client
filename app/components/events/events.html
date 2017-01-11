@@ -31,7 +31,7 @@
         <div uib-accordion-group class="panel-default" is-open="$first"
           ng-repeat="key in eventsVm.eventGroups | filter: eventsVm.filterBy" ng-if="eventsVm.groupBy">
           <uib-accordion-heading>
-            {{key}} <span class="pull-right label label-default">{{eventsVm.eventsGrouped[key].length}}</span>
+            {{key}} <span class="pull-right label label-default">{{eventsVm.events[key].length}}</span>
           </uib-accordion-heading>
           <div ng-repeat="event in eventsVm.events[key]">
             <h3>{{event.fragment}}</h3>
