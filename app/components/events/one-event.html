@@ -35,7 +35,71 @@
                         </code>
                     </div>
                 </uib-tab>
-                <uib-tab index="1" heading="Comments">Comments</uib-tab>
+                <uib-tab index="1" heading="Comments">
+                    <div class="col-md-8 col-sm-8" style="padding-top: 20px;">
+                        <div class="media" ng-repeat="comment in eventVm.event.comments">
+                            <div class="media-left">
+                                <a href="#">
+                                    <img class="media-object img-circle" ng-src="{{comment.signedBy.imagePath}}" alt="..." width="40px" height="40px">
+                                </a>
+                            </div>
+                            <div class="media-body">
+                                <h4 class="media-heading">
+                                    {{comment.signedBy.name + ' ' + comment.signedBy.surname}}
+                                    <small style="font-size: 60%;">@{{comment.createdAt | date:'dd-MM-yyyy'}}</small>
+                                </h4>
+                                <cite>
+                                    {{comment.text}}
+                                </cite>
+                                <div class="media" ng-repeat="comment2nd in comment.comments">
+                                    <div class="media-left">
+                                        <a href="#">
+                                            <img class="media-object img-circle" ng-src="{{comment2nd.signedBy.imagePath}}" alt="..." width="30px" height="30px">
+                                        </a>
+                                    </div>
+                                    <div class="media-body">
+                                        <h5 class="media-heading">
+                                            {{comment2nd.signedBy.name + ' ' + comment2nd.signedBy.surname}}
+                                            <small style="font-size: 70%;">@{{comment2nd.createdAt | date:'dd-MM-yyyy'}}</small>
+                                        </h5>
+                                        <cite>
+                                            {{comment2nd.text}}
+                                        </cite>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-1 col-sm-1">
+                                        <a href="#">
+                                            <img class="media-object img-circle" src="https://s-media-cache-ak0.pinimg.com/564x/98/2c/d8/982cd88ff2d4285eb3596073b14272ad.jpg" alt="..." width="30px" height="30px">
+                                        </a>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6" style="margin-left: -10px; margin-top: 5px;">
+                                        <textarea ng-model="eventVm.availableReplies[comment._id]"
+                                                  ng-keyup="$event.keyCode == 13 && eventVm.createCommentOnComment(comment._id);"
+                                                  class="form-control"
+                                                  placeholder="Press enter to reply...">
+                                        </textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 15px;">
+                            <div class="col-md-1 col-sm-1">
+                                <a href="#">
+                                    <img class="media-object img-circle" src="https://s-media-cache-ak0.pinimg.com/564x/98/2c/d8/982cd88ff2d4285eb3596073b14272ad.jpg" alt="..." width="40px" height="40px">
+                                </a>
+                            </div>
+                            <div class="col-md-10 col-sm-10">
+                                <textarea id="comment"
+                                          class="form-control"
+                                          rows="2" 
+                                          placeholder="Press enter to reply..."
+                                          ng-model="eventVm.newCommentText"
+                                          ng-keyup="$event.keyCode == 13 && eventVm.createCommentOnEvent();"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </uib-tab>
             </uib-tabset>
         </div>
         <div class="col-md-1 col-sm-1"></div>
