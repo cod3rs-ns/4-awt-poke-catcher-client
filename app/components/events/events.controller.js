@@ -5,9 +5,9 @@
         .module('awt-client')
         .controller('EventsController', EventsController);
 
-    EventsController.$inject = ['$stateParams', '$log', '_', 'eventsService'];
+    EventsController.$inject = ['$stateParams', '$log', '_', 'eventService'];
 
-    function EventsController($stateParams, $log, _, eventsService) {
+    function EventsController($stateParams, $log, _, eventService) {
         var eventsVm = this;
 
         // Variable binders
@@ -25,7 +25,7 @@
         };
 
         function getEvents(appId) {
-            eventsService.getEventsByAppId(appId)
+            eventService.getEventsByAppId(appId)
               .then(function(response) {
                   eventsVm.all = response.data;
                   groupByChanged();

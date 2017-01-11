@@ -12,7 +12,8 @@
           getMyApps: getMyApps,
           getMyIncludedApps: getMyIncludedApps,
           registerApp: registerApp,
-          updateApp: updateApp
+          updateApp: updateApp,
+          getApp: getApp
         };
 
         return service;
@@ -51,6 +52,22 @@
               }, function errorCallback(response) {
                   throw 'cannot-update-app';
               });
-        }
+        };
+
+        
+        /**
+         * Retrieves Application.
+         * 
+         * @param {any} appId   ID of the application
+         * @returns response
+         */
+        function getApp(appId) {
+            return $http.get(CONFIG.SERVICE_URL + '/applications/' + appId)
+              .then(function successCallback(response) {
+                  return response;
+              }, function errorCallback(response) {
+                  throw 'cannot-retrieve-app';
+              });
+        };
     }
 })();
