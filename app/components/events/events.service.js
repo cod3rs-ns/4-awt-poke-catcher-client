@@ -15,7 +15,7 @@
         return service;
 
         function getEventsByAppId(appId) {
-            return $http.get(CONFIG.SERVICE_URL + '/events/' + appId)
+            return $http.get(CONFIG.SERVICE_URL + '/applications/' + appId + '/events')
               .then(function successCallback(response) {
                   return response;
               }, function errorCallback(response) {
