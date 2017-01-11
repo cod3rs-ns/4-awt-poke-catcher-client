@@ -12,12 +12,14 @@
 
         // Variable binders
         dashboardVm.apps = [];
+        dashboardVm.includedApps = [];
 
         // FIXME For each application
         dashboardVm.isCollapsed = true;
 
         // Methods
         dashboardVm.getRegistredApplications = getRegistredApplications;
+        dashboardVm.getIncludedApplications = getIncludedApplications;
         dashboardVm.registerApplication = registerApplication;
         dashboardVm.addUser = addUser;
 
@@ -25,12 +27,23 @@
 
         function activate() {
             dashboardVm.getRegistredApplications();
+            dashboardVm.getIncludedApplications();
         }
 
         function getRegistredApplications() {
             dashboardService.getMyApps($localStorage.user)
               .then(function(response) {
                   dashboardVm.apps = response.data;
+              })
+              .catch(function (error) {
+                  $log.error(error);
+              });
+        };
+
+        function getIncludedApplications() {
+            dashboardService.getMyIncludedApps($localStorage.user)
+              .then(function(response) {
+                  dashboardVm.includedApps = response.data;
               })
               .catch(function (error) {
                   $log.error(error);
@@ -70,7 +83,6 @@
             dashboardService.updateApp(application)
               .then(function(response) {
                   dashboardVm.user = "";
-                  $log.info(response.data);
               })
               .catch(function (error) {
                   $log.error(error);

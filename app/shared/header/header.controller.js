@@ -10,7 +10,7 @@
     function HeaderController($localStorage, $location) {
         var headerVm = this;
 
-        headerVm.title = "Poké Cathcer";
+        headerVm.title = "Poké Catcher";
         headerVm.$storage = $localStorage;
 
         headerVm.logout = logout;
