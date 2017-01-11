@@ -3,11 +3,11 @@
 
     angular
         .module('awt-client')
-        .service('commentsService', commentsService);
+        .service('commentService', commentService);
 
-    commentsService.$inject = ['$http', 'CONFIG'];
+    commentService.$inject = ['$http', 'CONFIG'];
 
-    function commentsService($http, CONFIG) {
+    function commentService($http, CONFIG) {
         var service = {
           getComment: getComment,
           createCommentOnComment: createCommentOnComment,
@@ -31,7 +31,6 @@
                 });
         };
 
-
         /**
          * Creates subcomment.
          * 
@@ -47,7 +46,6 @@
                     throw 'cannot-create-comment';
                 });            
         };
-        
         
         /**
          * Creates new comment on Event

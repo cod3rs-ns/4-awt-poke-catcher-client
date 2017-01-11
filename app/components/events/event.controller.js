@@ -5,62 +5,85 @@
         .module('awt-client')
         .controller('EventController', EventController);
 
-    EventController.inject = ['$stateParams', '$log', '_', 'eventsService', 'dashboardService', 'commentsService'];
-    function EventController($stateParams, $log, _, eventsService, dashboardService, commentsService) {
+    EventController.inject = ['$stateParams', '$log', '_', 'eventService', 'dashboardService', 'commentService', '$localStorage', 'userService'];
+    function EventController($stateParams, $log, _, eventService, dashboardService, commentService, $localStorage, userService) {
         var eventVm = this;
-        eventVm.event = {};
-        eventVm.app = {};
-        eventVm.availableReplies = [];
-        eventVm.newCommentText = "";
 
+        /** active Event object */
+        eventVm.event = {};
+        /** application on which Event is attached */
+        eventVm.app = {};
+        /** comments on which reply is available */
+        eventVm.availableReplies = [];
+        /** text value of the comment attached directly to Event */
+        eventVm.newCommentText = "";
+        /** active user - for commenting purpose */
+        eventVm.activeUser = {};
+
+        /** public methods */
         eventVm.getEvent = getEvent;
         eventVm.createCommentOnComment = createCommentOnComment;
         eventVm.createCommentOnEvent = createCommentOnEvent;
 
         activate();
 
-        ////////////////
-
         function activate() {
             eventVm.getEvent($stateParams.eventId);
+            userService.getUser($localStorage.user)
+                .then(function(response) {
+                    eventVm.activeUser = response.data;
+                })
+                .catch(function(error) {
+                    $log.warn(error);
+                });
         };
 
+        /**
+         * Retireves Event
+         * 
+         * @param {string} eventId  ID of the event
+         */
         function getEvent(eventId) {
-            eventsService.getEvent(eventId)
+            eventService.getEvent(eventId)
                 .then(function(response) {
                     eventVm.event = response.data;
                     getApp();
                     _.forEach(eventVm.event.comments, function(value) {
                         eventVm.availableReplies[value._id] = '';
                     });
-                    console.log(eventVm.availableReplies);
                 })
                 .catch(function(error) {
                     $log.warn(error);
                 });
         };
 
+        /**
+         * Retrieves Application on which Event is attached.
+         */
         function getApp() {
             dashboardService.getApp(eventVm.event.applicationId)
                 .then(function(response) {
-                    eventVm.app = response.data; 
-                    console.log(eventVm.app);
+                    eventVm.app = response.data;
                 })
                 .catch(function(error) {
                     $log.warn(error);
                 });
         };
 
+        /**
+         * Creates subcomment.
+         * 
+         * @param {string} parentId ID of the parent comment
+         */
         function createCommentOnComment(parentId) {
             var newComment = {
                 "text": eventVm.availableReplies[parentId],
                 "createdAt": _.now(),
-                "signedBy": "587665f6315be810041fe8c9"
+                "signedBy": eventVm.activeUser._id
             };
             if (eventVm.availableReplies[parentId] != '') {
-                commentsService.createCommentOnComment(parentId, newComment)
+                commentService.createCommentOnComment(parentId, newComment)
                     .then(function(response) {
-                        console.log(response.data);
                         eventVm.availableReplies[parentId] = "";
                         activate();
                     })
@@ -73,16 +96,19 @@
             };
         };
 
+
+        /**
+         * Creates comment on the event.
+         */
         function createCommentOnEvent() {
             var newComment = {
                 "text": eventVm.newCommentText,
                 "createdAt": _.now(),
-                "signedBy": "587665f6315be810041fe8c9"
+                "signedBy": eventVm.activeUser._id
             };
             if (eventVm.newCommentText != '') {
-                commentsService.createCommentOnEvent(eventVm.event._id, newComment)
+                commentService.createCommentOnEvent(eventVm.event._id, newComment)
                     .then(function(response) {
-                        console.log(response.data);
                         eventVm.newCommentText = "";
                         activate();
                     })
@@ -92,7 +118,7 @@
             } else {
                 // erase enter
                 eventVm.newCommentText = '';
-            }
+            };
         };
         
     }

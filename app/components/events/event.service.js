@@ -3,11 +3,11 @@
 
     angular
         .module('awt-client')
-        .service('eventsService', eventsService);
+        .service('eventService', eventService);
 
-    eventsService.$inject = ['$http', 'CONFIG'];
+    eventService.$inject = ['$http', 'CONFIG'];
 
-    function eventsService($http, CONFIG) {
+    function eventService($http, CONFIG) {
         var service = {
           getEventsByAppId: getEventsByAppId,
           getEvent: getEvent
