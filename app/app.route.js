@@ -30,7 +30,7 @@ angular
             .state('welcome', {
                 url: "/welcome",
                 data: {
-                    pageTitle: 'Poké Cathcer | Home'
+                    pageTitle: 'Poké Catcher | Home'
                 },
                 views: {
                     'content@': {
@@ -41,7 +41,7 @@ angular
             .state('register', {
                 url: "/signup",
                 data: {
-                    pageTitle: 'Poké Cathcer | Sign up'
+                    pageTitle: 'Poké Catcher | Sign up'
                 },
                 views: {
                     'content@': {
@@ -54,7 +54,7 @@ angular
             .state('login', {
                 url: "/signin",
                 data: {
-                    pageTitle: 'Poké Cathcer | Sign in'
+                    pageTitle: 'Poké Catcher | Sign in'
                 },
                 views: {
                     'content@': {
@@ -67,7 +67,7 @@ angular
             .state('dashboard', {
                 url: "/dashboard",
                 data: {
-                    pageTitle: 'Poké Cathcer | Dashboard'
+                    pageTitle: 'Poké Catcher | Dashboard'
                 },
                 views: {
                     'content@': {
@@ -80,7 +80,7 @@ angular
             .state('events', {
                 url: "/events/:applicationId",
                 data: {
-                    pageTitle: "Poké Cathcer | Application's events"
+                    pageTitle: "Poké Catcher | Application's events"
                 },
                 views: {
                     'content@': {
