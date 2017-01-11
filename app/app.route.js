@@ -89,6 +89,19 @@ angular
                         controllerAs: "eventsVm"
                     }
                 }
+            })
+            .state('event', {
+                url: "/event/:eventId",
+                data : {
+                    pageTitle: "Poké Catcher | Event"
+                },
+                views: {
+                    'content@': {
+                        templateUrl: "app/components/events/one-event.html",
+                        controller: "EventController",
+                        controllerAs: "eventVm"
+                    }
+                }
             });
 
         $httpProvider.interceptors.push(['$q', '$location', '$localStorage', '_', function ($q, $location, $localStorage, _) {
