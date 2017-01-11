@@ -10,6 +10,7 @@
     function dashboardService($http, CONFIG) {
         var service = {
           getMyApps: getMyApps,
+          getMyIncludedApps: getMyIncludedApps,
           registerApp: registerApp,
           updateApp: updateApp
         };
@@ -17,11 +18,20 @@
         return service;
 
         function getMyApps(user) {
-            return $http.get(CONFIG.SERVICE_URL + '/applications/users/' + user)
+            return $http.get(CONFIG.SERVICE_URL + '/applications/user/' + user)
               .then(function successCallback(response) {
                   return response;
               }, function errorCallback(response) {
-                  throw 'cannot-retrieve-applications';
+                  throw 'cannot-retrieve-my-applications';
+              });
+        };
+
+        function getMyIncludedApps(email) {
+            return $http.get(CONFIG.SERVICE_URL + '/applications/users/' + email)
+              .then(function successCallback(response) {
+                  return response;
+              }, function errorCallback(response) {
+                  throw 'cannot-retrieve-applications-i-am-included-at';
               });
         };
 
