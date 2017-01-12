@@ -5,9 +5,9 @@
         .module('awt-client')
         .controller('EventsController', EventsController);
 
-    EventsController.$inject = ['$stateParams', '$log', '_', 'eventService'];
+    EventsController.$inject = ['$stateParams', '$localStorage', '$log', '_', 'eventService', 'userService'];
 
-    function EventsController($stateParams, $log, _, eventService) {
+    function EventsController($stateParams, $localStorage, $log, _, eventService, userService) {
         var eventsVm = this;
 
         // Variable binders
@@ -17,11 +17,13 @@
         // Methods
         eventsVm.groupByChanged = groupByChanged;
         eventsVm.getEvents = getEvents;
+        eventsVm.getActiveUser = getActiveUser;
 
         activate();
 
         function activate() {
             eventsVm.getEvents($stateParams.applicationId);
+            eventsVm.getActiveUser();
         };
 
         function getEvents(appId) {
@@ -51,6 +53,16 @@
             eventsVm.eventGroups = _.keys(groupedEvents);
             eventsVm.events = groupedEvents;
         };
+
+        function getActiveUser(){
+            userService.getUser($localStorage.user)
+                .then(function(response) {
+                    eventsVm.activeUser = response.data;
+                })
+                .catch(function(error) {
+                    $log.warn(error);
+                });
+        }
 
     }
 })();
