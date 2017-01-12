@@ -1,4 +1,4 @@
-(function() {
+(function () {
     'use strict';
 
     angular
@@ -13,9 +13,6 @@
         // Variable binders
         dashboardVm.apps = [];
         dashboardVm.includedApps = [];
-
-        // FIXME For each application
-        dashboardVm.isCollapsed = true;
 
         // Methods
         dashboardVm.getRegistredApplications = getRegistredApplications;
@@ -33,22 +30,30 @@
 
         function getRegistredApplications() {
             dashboardService.getMyApps($localStorage.user)
-              .then(function(response) {
-                  dashboardVm.apps = response.data;
-              })
-              .catch(function (error) {
-                  $log.error(error);
-              });
+                .then(function (response) {
+                    dashboardVm.apps = response.data;
+                    dashboardVm.isCollapsedRegistered = [];
+                    _.forEach(dashboardVm.apps, function (app) {
+                        dashboardVm.isCollapsedRegistered.push(true);
+                    });
+                })
+                .catch(function (error) {
+                    $log.error(error);
+                });
         };
 
         function getIncludedApplications() {
             dashboardService.getMyIncludedApps($localStorage.user)
-              .then(function(response) {
-                  dashboardVm.includedApps = response.data;
-              })
-              .catch(function (error) {
-                  $log.error(error);
-              });
+                .then(function (response) {
+                    dashboardVm.includedApps = response.data;
+                    dashboardVm.isCollapsedIncluded = [];
+                    _.forEach(dashboardVm.includedApps, function (app) {
+                        dashboardVm.isCollapsedIncluded.push(true);
+                    });
+                })
+                .catch(function (error) {
+                    $log.error(error);
+                });
         };
 
         function registerApplication(size, parentSelector) {
@@ -65,17 +70,17 @@
             });
 
             modalInstance.result
-                .then(function(app) {
+                .then(function (app) {
                     app.name = app.name.$$state.value;
                     app.dsn = app.dsn.$$state.value;
 
                     dashboardService.registerApp(app)
-                      .then(function(response) {
-                          dashboardVm.apps.push(response.data);
-                      })
-                      .catch(function (error) {
-                          $log.error(error);
-                      });
+                        .then(function (response) {
+                            dashboardVm.apps.push(response.data);
+                        })
+                        .catch(function (error) {
+                            $log.error(error);
+                        });
                 }, function () {
                     $log.info('Modal dismissed at: ' + _.now());
                 });
@@ -96,12 +101,12 @@
             application.users.push(dashboardVm.user);
 
             dashboardService.updateApp(application)
-              .then(function(response) {
-                  dashboardVm.user = "";
-              })
-              .catch(function (error) {
-                  $log.error(error);
-              });
+                .then(function (response) {
+                    dashboardVm.user = "";
+                })
+                .catch(function (error) {
+                    $log.error(error);
+                });
         };
     }
 })();

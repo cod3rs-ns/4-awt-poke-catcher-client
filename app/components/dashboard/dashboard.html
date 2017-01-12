@@ -25,11 +25,11 @@
             <div class="row">
               <a ui-sref="events({applicationId: app._id})" type="button" class="btn btn-default pull-right">Show event logs</a>
               <button type="button" class="btn btn-default pull-right" style="margin-right: 8px;"
-                  ng-click="dashboardVm.isCollapsed = !dashboardVm.isCollapsed">
+                  ng-click="dashboardVm.isCollapsedRegistered[$index] = !dashboardVm.isCollapsedRegistered[$index]">
                   See registered users
               </button>
             </div>
-          	<div class="registered-users" uib-collapse="dashboardVm.isCollapsed">
+          	<div class="registered-users" uib-collapse="dashboardVm.isCollapsedRegistered[$index]">
           		<p ng-repeat="user in app.users">{{user}}</p>
               <div class="invite-user-form">
                 <h5>Enter user's email</h5>
@@ -65,11 +65,11 @@
             <div class="row">
               <a ui-sref="events({applicationId: app._id})" type="button" class="btn btn-default pull-right">Show event logs</a>
               <button type="button" class="btn btn-default pull-right" style="margin-right: 8px;"
-                  ng-click="dashboardVm.isCollapsed = !dashboardVm.isCollapsed">
+                  ng-click="dashboardVm.isCollapsedIncluded[$index] = !dashboardVm.isCollapsedIncluded[$index]">
                   See registered users
               </button>
             </div>
-          	<div class="registered-users" uib-collapse="dashboardVm.isCollapsed">
+          	<div class="registered-users" uib-collapse="dashboardVm.isCollapsedIncluded[$index]">
           		<p ng-repeat="user in app.users">{{user}}</p>
           	</div>
             <hr ng-hide="$last"/>
