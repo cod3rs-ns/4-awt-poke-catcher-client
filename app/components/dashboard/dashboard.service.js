@@ -91,8 +91,8 @@
                 });
         };
 
-        function userExists(email) {
-            return $http.get(CONFIG.SERVICE_URL + '/applications/unique/user/' + email)
+        function userExists(email, appId) {
+            return $http.get(CONFIG.SERVICE_URL + '/applications/' + appId + '/unique/user/' + email)
                 .then(function successCallback(response) {
                     return response;
                 }, function errorCallback(response) {

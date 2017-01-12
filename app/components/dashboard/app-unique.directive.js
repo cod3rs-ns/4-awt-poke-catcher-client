@@ -44,7 +44,7 @@ function appUnique($http, $log, CONFIG, dashboardService) {
                         ctrl.$setValidity('emailValidator', false);
                     }
                     
-                    return dashboardService.userExists(element.val())
+                    return dashboardService.userExists(element.val(), attrs.appId)
                         .then(function (response) {
                             ctrl.$setValidity('unique', response.data);
                             return ngModelValue;

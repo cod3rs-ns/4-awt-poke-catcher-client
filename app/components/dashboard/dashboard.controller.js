@@ -1,4 +1,4 @@
-(function() {
+(function () {
     'use strict';
 
     angular
@@ -13,9 +13,7 @@
         // Variable binders
         dashboardVm.apps = [];
         dashboardVm.includedApps = [];
-
-        // FIXME For each application
-        dashboardVm.isCollapsed = true;
+        dashboardVm.userForms = {};
 
         // Methods
         dashboardVm.getRegistredApplications = getRegistredApplications;
@@ -33,22 +31,32 @@
 
         function getRegistredApplications() {
             dashboardService.getMyApps($localStorage.user)
-              .then(function(response) {
-                  dashboardVm.apps = response.data;
-              })
-              .catch(function (error) {
-                  $log.error(error);
-              });
+                .then(function (response) {
+                    dashboardVm.apps = response.data;
+                    dashboardVm.isCollapsedRegistered = [];
+                    dashboardVm.users = [];
+                    _.forEach(dashboardVm.apps, function (app) {
+                        dashboardVm.isCollapsedRegistered.push(true);
+                        dashboardVm.users[app._id] = "";
+                    });
+                })
+                .catch(function (error) {
+                    $log.error(error);
+                });
         };
 
         function getIncludedApplications() {
             dashboardService.getMyIncludedApps($localStorage.user)
-              .then(function(response) {
-                  dashboardVm.includedApps = response.data;
-              })
-              .catch(function (error) {
-                  $log.error(error);
-              });
+                .then(function (response) {
+                    dashboardVm.includedApps = response.data;
+                    dashboardVm.isCollapsedIncluded = [];
+                    _.forEach(dashboardVm.includedApps, function (app) {
+                        dashboardVm.isCollapsedIncluded.push(true);
+                    });
+                })
+                .catch(function (error) {
+                    $log.error(error);
+                });
         };
 
         function registerApplication(size, parentSelector) {
@@ -65,43 +73,43 @@
             });
 
             modalInstance.result
-                .then(function(app) {
+                .then(function (app) {
                     app.name = app.name.$$state.value;
                     app.dsn = app.dsn.$$state.value;
 
                     dashboardService.registerApp(app)
-                      .then(function(response) {
-                          dashboardVm.apps.push(response.data);
-                      })
-                      .catch(function (error) {
-                          $log.error(error);
-                      });
+                        .then(function (response) {
+                            dashboardVm.apps.push(response.data);
+                        })
+                        .catch(function (error) {
+                            $log.error(error);
+                        });
                 }, function () {
                     $log.info('Modal dismissed at: ' + _.now());
                 });
         };
 
-        function setUserForm(form) {
-            dashboardVm.userForm = form;
+        function setUserForm(form, appId) {
+            dashboardVm.userForms[appId] = form;
         }
 
         function addUser(application) {
-            dashboardVm.user = dashboardVm.user.$$state.value;
-            var user = angular.copy(dashboardVm.user);
+            dashboardVm.users[application._id] = dashboardVm.users[application._id].$$state.value;
+            var user = angular.copy(dashboardVm.users[application._id]);
 
             // Refresh form
-            dashboardVm.userForm.$setPristine();
-            dashboardVm.userForm.$setDirty();
+            dashboardVm.userForms[application._id].$setPristine();
+            dashboardVm.userForms[application._id].$setDirty();
 
-            application.users.push(dashboardVm.user);
+            application.users.push(dashboardVm.users[application._id]);
 
             dashboardService.updateApp(application)
-              .then(function(response) {
-                  dashboardVm.user = "";
-              })
-              .catch(function (error) {
-                  $log.error(error);
-              });
+                .then(function (response) {
+                    dashboardVm.users[application._id] = "";
+                })
+                .catch(function (error) {
+                    $log.error(error);
+                });
         };
     }
 })();
