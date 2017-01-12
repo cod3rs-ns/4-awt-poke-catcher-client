@@ -5,9 +5,9 @@
         .module('awt-client')
         .controller('DashboardController', DashboardController);
 
-    DashboardController.$inject = ['$scope', '$uibModal', '$localStorage', '$log', '_', 'dashboardService'];
+    DashboardController.$inject = ['$scope', '$uibModal', '$localStorage', '$log', '_', 'dashboardService', 'userService'];
 
-    function DashboardController($scope, $uibModal, $localStorage, $log, _, dashboardService) {
+    function DashboardController($scope, $uibModal, $localStorage, $log, _, dashboardService, userService) {
         var dashboardVm = this;
 
         // Variable binders
@@ -18,6 +18,7 @@
         // Methods
         dashboardVm.getRegistredApplications = getRegistredApplications;
         dashboardVm.getIncludedApplications = getIncludedApplications;
+        dashboardVm.getActiveUser = getActiveUser;
         dashboardVm.registerApplication = registerApplication;
         dashboardVm.addUser = addUser;
         dashboardVm.setUserForm = setUserForm;
@@ -27,6 +28,17 @@
         function activate() {
             dashboardVm.getRegistredApplications();
             dashboardVm.getIncludedApplications();
+            dashboardVm.getActiveUser();
+        }
+
+        function getActiveUser(){
+            userService.getUser($localStorage.user)
+                .then(function(response) {
+                    dashboardVm.activeUser = response.data;
+                })
+                .catch(function(error) {
+                    $log.warn(error);
+                });
         }
 
         function getRegistredApplications() {

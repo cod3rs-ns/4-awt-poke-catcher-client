@@ -2,9 +2,9 @@
   <div class="row">
     <!-- Sidebar -->
     <div class="col-xs-12 col-md-3" style="text-align: center;">
-      <img src="http://resources1.news.com.au/images/2009/01/11/va1237349596788/Heath-Ledger-joker-golden-globes-6435336.jpg" alt="..."
+      <img  ng-src="{{dashboardVm.activeUser.imagePath}}" alt="..."
           width="96px" height="96px" class="img-circle">
-      <h4>Dragutin Marjanović</h4>
+      <h4>{{dashboardVm.activeUser.name}} {{dashboardVm.activeUser.surname}}</h4>
     </div>
     <div class="col-xs-12 col-md-9">
       <!-- Register new application button -->
