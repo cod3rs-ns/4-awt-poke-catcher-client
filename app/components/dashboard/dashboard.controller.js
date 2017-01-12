@@ -5,9 +5,9 @@
         .module('awt-client')
         .controller('DashboardController', DashboardController);
 
-    DashboardController.$inject = ['$uibModal', '$localStorage', '$log', '_', 'dashboardService'];
+    DashboardController.$inject = ['$scope', '$uibModal', '$localStorage', '$log', '_', 'dashboardService'];
 
-    function DashboardController($uibModal, $localStorage, $log, _, dashboardService) {
+    function DashboardController($scope, $uibModal, $localStorage, $log, _, dashboardService) {
         var dashboardVm = this;
 
         // Variable binders
@@ -22,6 +22,7 @@
         dashboardVm.getIncludedApplications = getIncludedApplications;
         dashboardVm.registerApplication = registerApplication;
         dashboardVm.addUser = addUser;
+        dashboardVm.setUserForm = setUserForm;
 
         activate();
 
@@ -65,6 +66,9 @@
 
             modalInstance.result
                 .then(function(app) {
+                    app.name = app.name.$$state.value;
+                    app.dsn = app.dsn.$$state.value;
+
                     dashboardService.registerApp(app)
                       .then(function(response) {
                           dashboardVm.apps.push(response.data);
@@ -77,7 +81,18 @@
                 });
         };
 
+        function setUserForm(form) {
+            dashboardVm.userForm = form;
+        }
+
         function addUser(application) {
+            dashboardVm.user = dashboardVm.user.$$state.value;
+            var user = angular.copy(dashboardVm.user);
+
+            // Refresh form
+            dashboardVm.userForm.$setPristine();
+            dashboardVm.userForm.$setDirty();
+
             application.users.push(dashboardVm.user);
 
             dashboardService.updateApp(application)
