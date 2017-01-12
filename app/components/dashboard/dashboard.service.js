@@ -13,7 +13,9 @@
           getMyIncludedApps: getMyIncludedApps,
           registerApp: registerApp,
           updateApp: updateApp,
-          getApp: getApp
+          getApp: getApp,
+          nameExists: nameExists,
+          dsnExists:dsnExists
         };
 
         return service;
@@ -68,6 +70,24 @@
               }, function errorCallback(response) {
                   throw 'cannot-retrieve-app';
               });
+        };
+
+        function nameExists(name) {
+            return $http.get(CONFIG.SERVICE_URL + '/applications/unique/name/' + name)
+                .then(function successCallback(response) {
+                    return response;
+                }, function errorCallback(response) {
+                    throw 'cannot-check-app-name-existence';
+                });
+        };
+
+        function dsnExists(dsn) {
+            return $http.get(CONFIG.SERVICE_URL + '/applications/unique/dsn/' + dsn)
+                .then(function successCallback(response) {
+                    return response;
+                }, function errorCallback(response) {
+                    throw 'cannot-check-dsn-existence';
+                });
         };
     }
 })();

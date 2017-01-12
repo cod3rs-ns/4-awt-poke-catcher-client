@@ -65,6 +65,9 @@
 
             modalInstance.result
                 .then(function(app) {
+                    app.name = app.name.$$state.value;
+                    app.dsn = app.dsn.$$state.value;
+
                     dashboardService.registerApp(app)
                       .then(function(response) {
                           dashboardVm.apps.push(response.data);
