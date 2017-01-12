@@ -27,7 +27,7 @@
     <div class="row">
         <div class="col-md-1 col-sm-1"></div>
         <div class="col-md-10 col-sm-10 col-xs-12">
-            <uib-tabset active="0" type="tabs">
+            <uib-tabset active="eventVm.activeTab" type="tabs">
                 <uib-tab index="0" heading="Stack trace">
                     <div class="well" style="margin-top: 5px;">
                         <code style="font-size: 80%">
@@ -99,6 +99,12 @@
                             </div>
                         </div>
                     </div>
+                </uib-tab>
+                <uib-tab heading="Timespan" index="2" ng-click="eventVm.showFragmentTimespan();">
+                    <div class="container" style="padding-top: 50px;">
+                        <div id="chart_div"></div>
+                    </div>
+                    <p>Total number of events: <strong>{{eventVm.eventFragmentCount}}</strong></p>
                 </uib-tab>
             </uib-tabset>
         </div>
