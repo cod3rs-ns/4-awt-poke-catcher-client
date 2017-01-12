@@ -10,7 +10,8 @@
     function eventService($http, CONFIG) {
         var service = {
           getEventsByAppId: getEventsByAppId,
-          getEvent: getEvent
+          getEvent: getEvent,
+          getEventsByFragment: getEventsByFragment
         };
 
         return service;
@@ -38,6 +39,22 @@
                 }, function errorCallback(response) {
                     throw 'cannot-retrieve-event';
                 });
+        };
+
+        /**
+         * Retrieves all Events which belongs to the same Fragment by the same application.
+         * 
+         * @param {string} appId        ID of the Application
+         * @param {string} fragment     name of the fragment
+         * @returns response
+         */
+        function getEventsByFragment(appId, fragment) {
+            return $http.get(CONFIG.SERVICE_URL + '/applications/' + appId + '/fragments/' + fragment)
+                .then(function successCallback(response) {
+                    return response;
+                }, function errorCallback(response) {
+                    throw 'cannot-retrieve-events-by-fragment';
+                });          
         };
         
     }
