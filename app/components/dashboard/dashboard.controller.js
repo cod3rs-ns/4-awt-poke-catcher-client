@@ -13,6 +13,7 @@
         // Variable binders
         dashboardVm.apps = [];
         dashboardVm.includedApps = [];
+        dashboardVm.userForms = {};
 
         // Methods
         dashboardVm.getRegistredApplications = getRegistredApplications;
@@ -33,8 +34,10 @@
                 .then(function (response) {
                     dashboardVm.apps = response.data;
                     dashboardVm.isCollapsedRegistered = [];
+                    dashboardVm.users = [];
                     _.forEach(dashboardVm.apps, function (app) {
                         dashboardVm.isCollapsedRegistered.push(true);
+                        dashboardVm.users[app._id] = "";
                     });
                 })
                 .catch(function (error) {
@@ -86,23 +89,23 @@
                 });
         };
 
-        function setUserForm(form) {
-            dashboardVm.userForm = form;
+        function setUserForm(form, appId) {
+            dashboardVm.userForms[appId] = form;
         }
 
         function addUser(application) {
-            dashboardVm.user = dashboardVm.user.$$state.value;
-            var user = angular.copy(dashboardVm.user);
+            dashboardVm.users[application._id] = dashboardVm.users[application._id].$$state.value;
+            var user = angular.copy(dashboardVm.users[application._id]);
 
             // Refresh form
-            dashboardVm.userForm.$setPristine();
-            dashboardVm.userForm.$setDirty();
+            dashboardVm.userForms[application._id].$setPristine();
+            dashboardVm.userForms[application._id].$setDirty();
 
-            application.users.push(dashboardVm.user);
+            application.users.push(dashboardVm.users[application._id]);
 
             dashboardService.updateApp(application)
                 .then(function (response) {
-                    dashboardVm.user = "";
+                    dashboardVm.users[application._id] = "";
                 })
                 .catch(function (error) {
                     $log.error(error);
