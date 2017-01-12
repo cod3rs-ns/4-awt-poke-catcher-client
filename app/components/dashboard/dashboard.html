@@ -19,7 +19,10 @@
         <uib-tab index="0" heading="My Applications">
           <!-- List of registred applications -->
           <div ng-repeat="app in dashboardVm.apps">
-            <h3>{{app.name}}</h3>
+            <h3 style="padding-right: 8px;">
+              {{app.name}}
+              <span class="label label-primary pull-right">{{app.latestVersion}}</span>
+            </h3>
             <p>{{app.description}}</p>
             <p>{{app.repo}}</p>
             <div class="row">
@@ -46,7 +49,7 @@
                           ng-click="dashboardVm.addUser(app);">Add user</button>
                       </span>
                     </div>
-                    <span ng-show="userForm.email.$invalid && userForm.email.$dirty && !userForm.email.$error.unique" 
+                    <span ng-show="userForm.email.$invalid && userForm.email.$dirty && !userForm.email.$error.unique"
                       class="help-block" style="font-size: 10pt; margin:0px;">Email address is not properly formated.</span>
                     <span ng-show="userForm.email.$error.unique" class="help-block" style="font-size: 10pt; margin:0px;">User is already added.</span>
                   </div>
