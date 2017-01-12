@@ -15,7 +15,8 @@
           updateApp: updateApp,
           getApp: getApp,
           nameExists: nameExists,
-          dsnExists:dsnExists
+          dsnExists:dsnExists,
+          userExists: userExists
         };
 
         return service;
@@ -87,6 +88,15 @@
                     return response;
                 }, function errorCallback(response) {
                     throw 'cannot-check-dsn-existence';
+                });
+        };
+
+        function userExists(email) {
+            return $http.get(CONFIG.SERVICE_URL + '/applications/unique/user/' + email)
+                .then(function successCallback(response) {
+                    return response;
+                }, function errorCallback(response) {
+                    throw 'cannot-check-app-user-existence';
                 });
         };
     }

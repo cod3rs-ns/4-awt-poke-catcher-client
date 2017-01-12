@@ -34,12 +34,23 @@
               <div class="invite-user-form">
                 <h5>Enter user's email</h5>
                 <p>You'll only be able to find a Poke Catch user by their email address if they've chosen to list it publicly. Otherwise, use their username instead.</p>
-                <div class="input-group">
-                  <input type="email" ng-model="dashboardVm.user" class="form-control" placeholder="Email of user...">
-                  <span class="input-group-btn">
-                    <button class="btn btn-default" type="button" ng-click="dashboardVm.addUser(app);">Add user</button>
-                  </span>
-                </div>
+                <form role="form" name="userForm" novalidate>
+                  <div class="form-group" ng-class="{ 'has-error' : userForm.email.$invalid && userForm.email.$dirty }">
+                    <div ng-init="dashboardVm.setUserForm(userForm);"></div>
+                    <div class="input-group">
+                      <span class="input-group-addon" id="basic-addon1"> <i class="glyphicon glyphicon-user"></i></span>
+                      <input type="text" ng-model="dashboardVm.user" class="form-control" placeholder="Email of user..."
+                        required app-unique name="email">
+                      <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" ng-disabled="userForm.email.$invalid"
+                          ng-click="dashboardVm.addUser(app);">Add user</button>
+                      </span>
+                    </div>
+                    <span ng-show="userForm.email.$invalid && userForm.email.$dirty && !userForm.email.$error.unique" 
+                      class="help-block" style="font-size: 10pt; margin:0px;">Email address is not properly formated.</span>
+                    <span ng-show="userForm.email.$error.unique" class="help-block" style="font-size: 10pt; margin:0px;">User is already added.</span>
+                  </div>
+                </form>
               </div>
           	</div>
             <hr ng-hide="$last"/>
