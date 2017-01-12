@@ -25,6 +25,7 @@
     "angular-bootstrap": "^2.4.0",
     "angular-jwt": "^0.1.8",
     "ngstorage": "^0.3.11",
-    "lodash": "^4.17.3"
+    "lodash": "^4.17.3",
+    "components-font-awesome": "^4.7.0"
   }
 }
