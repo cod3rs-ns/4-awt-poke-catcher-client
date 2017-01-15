@@ -49,6 +49,18 @@
                     dashboardVm.users = [];
                     _.forEach(dashboardVm.apps, function (app) {
                         dashboardVm.isCollapsedRegistered.push(true);
+                        var realUsers = [];
+                        _.forEach(app.users, function (id) {
+                            userService.getUserId(id)
+                              .then(function(response) {
+                                  realUsers.push(response.data);
+                              })
+                              .catch(function(error) {
+                                  $log.warn(error);
+                              });
+                        });
+                        app.users = realUsers;
+
                         dashboardVm.users[app._id] = "";
                     });
                 })
@@ -64,6 +76,17 @@
                     dashboardVm.isCollapsedIncluded = [];
                     _.forEach(dashboardVm.includedApps, function (app) {
                         dashboardVm.isCollapsedIncluded.push(true);
+                        var realUsers = [];
+                        _.forEach(app.users, function (id) {
+                            userService.getUserId(id)
+                              .then(function(response) {
+                                  realUsers.push(response.data);
+                              })
+                              .catch(function(error) {
+                                  $log.warn(error);
+                              });
+                        });
+                        app.users = realUsers;
                     });
                 })
                 .catch(function (error) {
@@ -113,15 +136,30 @@
             dashboardVm.userForms[application._id].$setPristine();
             dashboardVm.userForms[application._id].$setDirty();
 
-            application.users.push(dashboardVm.users[application._id]);
+            $log.info(user);
+            userService.getUser(user)
+              .then(function(response) {
+                  var user = response.data;
 
-            dashboardService.updateApp(application)
-                .then(function (response) {
-                    dashboardVm.users[application._id] = "";
-                })
-                .catch(function (error) {
-                    $log.error(error);
-                });
+                  if (_.isNull(user)) {
+                      dashboardVm.doesntExist = true;
+                  }
+                  else {
+                      application.users.push(user);
+
+                      dashboardService.updateApp(application)
+                          .then(function (response) {
+                              dashboardVm.users[application._id] = "";
+                              dashboardVm.doesntExist = false;
+                          })
+                          .catch(function (error) {
+                              $log.error(error);
+                          });
+                  }
+              })
+              .catch(function(error) {
+                  $log.warn(error);
+              });
         };
     }
 })();
