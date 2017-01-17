@@ -13,7 +13,7 @@
                     ng-model="createAppVm.application.name"
                     placeholder="Input application name..."
                     required app-unique>
-                <span ng-show="applicationForm.name.$invalid && applicationForm.name.$dirty" 
+                <span ng-show="applicationForm.name.$invalid && applicationForm.name.$dirty"
                     class="glyphicon glyphicon-remove form-control-feedback"></span>
             </div>
             <span ng-show="applicationForm.name.$error.required && applicationForm.name.$dirty && !applicationForm.name.$error.unique"
@@ -30,22 +30,25 @@
                     ng-model="createAppVm.application.description"
                     placeholder="Aditional description..."
                     required>
-                    <span ng-show="applicationForm.desc.$invalid && applicationForm.desc.$dirty" 
+                    <span ng-show="applicationForm.desc.$invalid && applicationForm.desc.$dirty"
                         class="glyphicon glyphicon-remove form-control-feedback"></span>
             </div>
-            <span ng-show="applicationForm.desc.$invalid && applicationForm.desc.$dirty" 
+            <span ng-show="applicationForm.desc.$invalid && applicationForm.desc.$dirty"
                 class="help-block" style="font-size: 10pt; margin:0px;">Description is required.</span>
         </div>
 
         <!-- Application version -->
-        <div class="form-group">
+        <div class="form-group" ng-class="{ 'has-error' : applicationForm.version.$invalid && applicationForm.version.$dirty }">
             <label for="version">Current version of your application</label>
             <div class="input-group">
                 <span class="input-group-addon" id="basic-addon1"> <i class="glyphicon glyphicon-tags"></i></span>
-                <input type="text" class="form-control" id="version"
+                <input type="text" class="form-control" id="version" name="version"
+                    ng-pattern="/\d+\.\d+\.\d+/"
                     ng-model="createAppVm.application.latestVersion"
                     placeholder="Application version...">
             </div>
+            <span ng-show="applicationForm.version.$invalid && applicationForm.version.$dirty"
+                class="help-block" style="font-size: 10pt; margin:0px;">Application version must be in format X.Y.Z</span>
         </div>
 
         <!-- Application repository -->
@@ -68,7 +71,7 @@
                     ng-model="createAppVm.application.dsn"
                     placeholder="Provide your app's DSN..."
                     required app-unique>
-                <span ng-show="applicationForm.dsn.$invalid && applicationForm.dsn.$dirty" 
+                <span ng-show="applicationForm.dsn.$invalid && applicationForm.dsn.$dirty"
                     class="glyphicon glyphicon-remove form-control-feedback"></span>
             </div>
             <span ng-show="applicationForm.dsn.$error.required && applicationForm.dsn.$dirty && !applicationForm.dsn.$error.unique"
@@ -78,7 +81,7 @@
 
     </div>
     <div class="modal-footer">
-        <button class="btn btn-success" type="button" ng-disabled="applicationForm.$invalid" 
+        <button class="btn btn-success" type="button" ng-disabled="applicationForm.$invalid"
             ng-click="createAppVm.ok();">Register</button>
         <button class="btn btn-default" data-dismiss="modal" ng-click="createAppVm.cancel();">Cancel</button>
     </div>
