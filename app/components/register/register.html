@@ -5,49 +5,97 @@
 <div class="container">
   <div class="row">
       <div class="col-xs-12 col-md-8">
-        <form role="form" ng-submit="registerVm.register();" >
+        <form role="form" ng-submit="registerVm.register();" name="registrationForm" novalidate>
           <!-- Username register input field -->
-          <div class="form-group">
+          <div class="form-group"  ng-class="{ 'has-error' : registrationForm.username.$invalid && registrationForm.username.$dirty }">
             <label for="username">Username</label>
-            <input type="text" class="form-control" id="username"
-                ng-model="registerVm.user.username"
-                placeholder="Input your username...">
+            <div class="input-group">
+                <span class="input-group-addon" id="basic-addon1"> <i class="glyphicon glyphicon-user"></i></span>
+                <input type="text" class="form-control" id="username" name="username"
+                    ng-model="registerVm.user.username" 
+                    placeholder="Input your username..."
+                    field-unique required>
+                <span ng-show="registrationForm.username.$invalid && registrationForm.username.$dirty" 
+                    class="glyphicon glyphicon-remove form-control-feedback">
+                </span>
+            </div>
+            <span ng-show="registrationForm.username.$error.required && registrationForm.username.$dirty && !registrationForm.username.$error.unique"
+                    class="help-block" style="font-size: 10pt; margin:0px;">Username is required.</span>
+            <span ng-show="registrationForm.username.$error.unique" class="help-block" style="font-size: 10pt; margin:0px;">Username is already in use.</span>
           </div>
 
           <!-- Password register input field -->
-          <div class="form-group">
+          <div class="form-group" ng-class="{ 'has-error' : registrationForm.password.$invalid && registrationForm.password.$dirty }">
             <label for="password">Password</label>
-            <input type="password" class="form-control" id="password"
-                ng-model="registerVm.user.password"
-                placeholder="Input your password...">
+            <div class="input-group">
+                <span class="input-group-addon" id="basic-addon1"> <i class="glyphicon glyphicon-lock"></i></span>
+                <input type="password" class="form-control" id="password" name="password"
+                    ng-model="registerVm.user.password" 
+                    placeholder="Input your password..."
+                    required ng-minlength="6">
+                <span ng-show="registrationForm.password.$invalid && registrationForm.password.$dirty" 
+                    class="glyphicon glyphicon-remove form-control-feedback"></span>
+            </div>
+            <span ng-show="registrationForm.password.$error.required && registrationForm.password.$dirty" 
+                class="help-block" style="font-size: 10pt; margin:0px;">Password is required.</span>
+            <span ng-show="registrationForm.password.$error.minlength && registrationForm.password.$dirty && !registrationForm.password.$error.required" 
+                class="help-block" style="font-size: 10pt; margin:0px;">Password must contains at least 6 characters.</span>
           </div>
 
           <!-- Email address register input field -->
-          <div class="form-group">
+          <div class="form-group"  ng-class="{ 'has-error': registrationForm.email.$invalid && registrationForm.email.$dirty}">
             <label for="email">Email address</label>
-            <input type="email" class="form-control" id="email"
-                ng-model="registerVm.user.mail"
-                placeholder="Input your email...">
+            <div class="input-group">
+                <span class="input-group-addon" id="basic-addon1"> <i class="glyphicon glyphicon-envelope"></i></span>
+                <input type="text" class="form-control" id="email" name="email"
+                    ng-model="registerVm.user.mail"
+                    placeholder="Input your email..."
+                    field-unique required>
+                <span ng-show="registrationForm.email.$invalid && registrationForm.email.$dirty" 
+                    class="glyphicon glyphicon-remove form-control-feedback"></span>
+            </div>
+            <span ng-show="registrationForm.email.$invalid && registrationForm.email.$dirty && !registrationForm.email.$error.unique" 
+                class="help-block" style="font-size: 10pt; margin:0px;">Email address is not properly formated.</span>
+            <span ng-show="registrationForm.email.$error.unique" class="help-block" style="font-size: 10pt; margin:0px;">Email is already in use.</span>
           </div>
 
           <!-- Name register input field -->
-          <div class="form-group">
+          <div class="form-group" ng-class="{ 'has-error' : registrationForm.firstName.$invalid && registrationForm.firstName.$dirty }">
             <label for="name">Your name</label>
-              <input type="text" class="form-control" id="name"
-                ng-model="registerVm.user.name"
-                placeholder="Input your name...">
+            <div class="input-group">
+                <span class="input-group-addon" id="basic-addon1"> <i class="glyphicon glyphicon-user"></i></span>
+                <input type="text" class="form-control" id="name" name="firstName"
+                    ng-model="registerVm.user.name"
+                    placeholder="Input your name..."
+                    required>
+                <span ng-show="registrationForm.firstName.$invalid && registrationForm.firstName.$dirty" 
+                    class="glyphicon glyphicon-remove form-control-feedback"></span>
+            </div>
+            <span ng-show="registrationForm.firstName.$invalid && registrationForm.firstName.$dirty" 
+                class="help-block" style="font-size: 10pt; margin:0px;">Name is required.</span>
           </div>
 
           <!-- Surname register input field -->
-          <div class="form-group">
+          <div class="form-group"  ng-class="{ 'has-error' : registrationForm.lastName.$invalid && registrationForm.lastName.$dirty }">
             <label for="surname">Your surname</label>
-            <input type="text" class="form-control" id="surname"
-                ng-model="registerVm.user.surname"
-                placeholder="Input your surname...">
+            <div class="input-group">
+                <span class="input-group-addon" id="basic-addon1"> <i class="glyphicon glyphicon-user"></i></span>
+                <input type="text" class="form-control" id="surname" name="lastName"
+                    ng-model="registerVm.user.surname"
+                    placeholder="Input your surname..."
+                    required>
+                <span ng-show="registrationForm.lastName.$invalid && registrationForm.lastName.$dirty" 
+                    class="glyphicon glyphicon-remove form-control-feedback"></span>
+            </div>
+            <span ng-show="registrationForm.lastName.$invalid && registrationForm.lastName.$dirty" 
+                class="help-block" style="font-size: 10pt; margin:0px;">Surname is required.</span>
           </div>
 
           <!-- Submit button -->
-          <button type="submit" class="btn btn-success btn-lg">Sign up</button>
+          <button type="submit" class="btn btn-success btn-lg" 
+              ng-disabled="registrationForm.$invalid" >
+              Sign up
+          </button>
         </form>
       </div>
 

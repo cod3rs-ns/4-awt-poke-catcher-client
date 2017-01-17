@@ -2,9 +2,9 @@
   <div class="row">
     <!-- Sidebar -->
     <div class="col-xs-12 col-md-3" style="text-align: center;">
-      <img src="http://resources1.news.com.au/images/2009/01/11/va1237349596788/Heath-Ledger-joker-golden-globes-6435336.jpg" alt="..."
+      <img  ng-src="{{dashboardVm.activeUser.imagePath}}" alt="..."
           width="96px" height="96px" class="img-circle">
-      <h4>Dragutin Marjanović</h4>
+      <h4>{{dashboardVm.activeUser.name}} {{dashboardVm.activeUser.surname}}</h4>
     </div>
     <div class="col-xs-12 col-md-9">
       <!-- Register new application button -->
@@ -19,27 +19,45 @@
         <uib-tab index="0" heading="My Applications">
           <!-- List of registred applications -->
           <div ng-repeat="app in dashboardVm.apps">
-            <h3>{{app.name}}</h3>
+            <h3 style="padding-right: 8px;">
+              {{app.name}}
+              <span class="label label-primary pull-right">{{app.latestVersion}}</span>
+            </h3>
             <p>{{app.description}}</p>
             <p>{{app.repo}}</p>
             <div class="row">
               <a ui-sref="events({applicationId: app._id})" type="button" class="btn btn-default pull-right">Show event logs</a>
               <button type="button" class="btn btn-default pull-right" style="margin-right: 8px;"
-                  ng-click="dashboardVm.isCollapsed = !dashboardVm.isCollapsed">
+                  ng-click="dashboardVm.isCollapsedRegistered[$index] = !dashboardVm.isCollapsedRegistered[$index]">
                   See registered users
               </button>
             </div>
-          	<div class="registered-users" uib-collapse="dashboardVm.isCollapsed">
-          		<p ng-repeat="user in app.users">{{user}}</p>
+          	<div class="registered-users" uib-collapse="dashboardVm.isCollapsedRegistered[$index]">
+          		<p ng-repeat="user in app.users">
+                <b>{{user.name + ' ' + user.surname}}</b><span class="pull-right">{{user.mail}}</span>
+              </p>
               <div class="invite-user-form">
                 <h5>Enter user's email</h5>
-                <p>You'll only be able to find a Poke Catch user by their email address if they've chosen to list it publicly. Otherwise, use their username instead.</p>
-                <div class="input-group">
-                  <input type="email" ng-model="dashboardVm.user" class="form-control" placeholder="Email of user...">
-                  <span class="input-group-btn">
-                    <button class="btn btn-default" type="button" ng-click="dashboardVm.addUser(app);">Add user</button>
-                  </span>
-                </div>
+                <p>You'll only be able to find a Poke Catch user by their email address if they've chosen to list it publicly.</p>
+                <form role="form" name="userForm" novalidate>
+                  <div class="form-group" ng-class="{ 'has-error' : userForm.email.$invalid && userForm.email.$dirty }">
+                    <div ng-init="dashboardVm.setUserForm(userForm, app._id);"></div>
+                    <div class="input-group">
+                      <span class="input-group-addon" id="basic-addon1"> <i class="glyphicon glyphicon-user"></i></span>
+                      <input type="text" ng-model="dashboardVm.users[app._id]" class="form-control" placeholder="Email of user..."
+                        ng-change="dashboardVm.doesntExist = false" required app-unique app-id="{{app._id}}" name="email">
+                      <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" ng-disabled="userForm.email.$invalid"
+                          ng-click="dashboardVm.addUser(app);">Add user</button>
+                      </span>
+                    </div>
+                    <span ng-show="userForm.email.$invalid && userForm.email.$dirty && !userForm.email.$error.unique"
+                      class="help-block" style="font-size: 10pt; margin:0px;">Email address is not properly formated.</span>
+                    <span ng-show="dashboardVm.doesntExist"
+                      class="help-block" style="font-size: 10pt; margin:0px; color: #d9534f;">User hasn't registered system on our system.</span>
+                    <span ng-show="userForm.email.$error.unique" class="help-block" style="font-size: 10pt; margin:0px;">User is already added.</span>
+                  </div>
+                </form>
               </div>
           	</div>
             <hr ng-hide="$last"/>
@@ -54,12 +72,14 @@
             <div class="row">
               <a ui-sref="events({applicationId: app._id})" type="button" class="btn btn-default pull-right">Show event logs</a>
               <button type="button" class="btn btn-default pull-right" style="margin-right: 8px;"
-                  ng-click="dashboardVm.isCollapsed = !dashboardVm.isCollapsed">
+                  ng-click="dashboardVm.isCollapsedIncluded[$index] = !dashboardVm.isCollapsedIncluded[$index]">
                   See registered users
               </button>
             </div>
-          	<div class="registered-users" uib-collapse="dashboardVm.isCollapsed">
-          		<p ng-repeat="user in app.users">{{user}}</p>
+          	<div class="registered-users" uib-collapse="dashboardVm.isCollapsedIncluded[$index]">
+          		<p ng-repeat="user in app.users">
+                  <b>{{user.name + ' ' + user.surname}}</b><span class="pull-right">{{user.mail}}</span>
+              </p>
           	</div>
             <hr ng-hide="$last"/>
           </div>
