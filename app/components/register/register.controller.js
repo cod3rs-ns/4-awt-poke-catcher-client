@@ -28,7 +28,6 @@
             registerService.register(registerVm.user)
                 .then(function(response) {
                     registerVm.user = {};
-                    $log.info(response.data);
                 })
                 .catch(function (error) {
                     $log.error(error);

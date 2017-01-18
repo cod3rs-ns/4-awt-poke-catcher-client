@@ -43,15 +43,8 @@ function appUnique($http, $log, CONFIG, dashboardService) {
                     } else {
                         ctrl.$setValidity('emailValidator', false);
                     }
-                    
-                    return dashboardService.userExists(element.val(), attrs.appId)
-                        .then(function (response) {
-                            ctrl.$setValidity('unique', response.data);
-                            return ngModelValue;
-                        })
-                        .catch(function (error) {
-                            $log.error(error);
-                        });
+
+                    return ngModelValue;
                 }
             }
             ctrl.$parsers.push(customValidator);
