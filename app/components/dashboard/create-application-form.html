@@ -43,7 +43,7 @@
             <div class="input-group">
                 <span class="input-group-addon" id="basic-addon1"> <i class="glyphicon glyphicon-tags"></i></span>
                 <input type="text" class="form-control" id="version" name="version"
-                    ng-pattern="/\d+\.\d+\.\d+/"
+                    ng-pattern="/^\d+\.\d+\.\d+$/"
                     ng-model="createAppVm.application.latestVersion"
                     placeholder="Application version...">
             </div>
