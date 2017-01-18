@@ -1,18 +1,20 @@
-(function () {
+(function() {
     'use strict';
 
     angular
         .module('awt-client')
         .controller('DashboardController', DashboardController);
 
-    DashboardController.$inject = ['$scope', '$uibModal', '$localStorage', '$log', '_', 'dashboardService', 'userService'];
+    DashboardController.$inject = ['$uibModal', '$localStorage', '$log', '_', 'dashboardService', 'userService'];
 
-    function DashboardController($scope, $uibModal, $localStorage, $log, _, dashboardService, userService) {
+    function DashboardController($uibModal, $localStorage, $log, _, dashboardService, userService) {
         var dashboardVm = this;
 
         // Variable binders
         dashboardVm.apps = [];
         dashboardVm.includedApps = [];
+        dashboardVm.alreadyExists = [];
+        dashboardVm.doesntExists = [];
         dashboardVm.userForms = {};
 
         // Methods
@@ -31,7 +33,7 @@
             dashboardVm.getActiveUser();
         }
 
-        function getActiveUser(){
+        function getActiveUser() {
             userService.getUser($localStorage.user)
                 .then(function(response) {
                     dashboardVm.activeUser = response.data;
@@ -43,53 +45,55 @@
 
         function getRegistredApplications() {
             dashboardService.getMyApps($localStorage.user)
-                .then(function (response) {
+                .then(function(response) {
                     dashboardVm.apps = response.data;
                     dashboardVm.isCollapsedRegistered = [];
                     dashboardVm.users = [];
-                    _.forEach(dashboardVm.apps, function (app) {
+                    _.forEach(dashboardVm.apps, function(app) {
+                        dashboardVm.alreadyExists[app._id] = false;
+                        dashboardVm.doesntExists[app._id] = false;
                         dashboardVm.isCollapsedRegistered.push(true);
                         var realUsers = [];
-                        _.forEach(app.users, function (id) {
+                        _.forEach(app.users, function(id) {
                             userService.getUserId(id)
-                              .then(function(response) {
-                                  realUsers.push(response.data);
-                              })
-                              .catch(function(error) {
-                                  $log.warn(error);
-                              });
+                                .then(function(response) {
+                                    realUsers.push(response.data);
+                                })
+                                .catch(function(error) {
+                                    $log.warn(error);
+                                });
                         });
                         app.users = realUsers;
 
                         dashboardVm.users[app._id] = "";
                     });
                 })
-                .catch(function (error) {
+                .catch(function(error) {
                     $log.error(error);
                 });
         };
 
         function getIncludedApplications() {
             dashboardService.getMyIncludedApps($localStorage.user)
-                .then(function (response) {
+                .then(function(response) {
                     dashboardVm.includedApps = response.data;
                     dashboardVm.isCollapsedIncluded = [];
-                    _.forEach(dashboardVm.includedApps, function (app) {
+                    _.forEach(dashboardVm.includedApps, function(app) {
                         dashboardVm.isCollapsedIncluded.push(true);
                         var realUsers = [];
-                        _.forEach(app.users, function (id) {
+                        _.forEach(app.users, function(id) {
                             userService.getUserId(id)
-                              .then(function(response) {
-                                  realUsers.push(response.data);
-                              })
-                              .catch(function(error) {
-                                  $log.warn(error);
-                              });
+                                .then(function(response) {
+                                    realUsers.push(response.data);
+                                })
+                                .catch(function(error) {
+                                    $log.warn(error);
+                                });
                         });
                         app.users = realUsers;
                     });
                 })
-                .catch(function (error) {
+                .catch(function(error) {
                     $log.error(error);
                 });
         };
@@ -101,25 +105,25 @@
                 controllerAs: 'createAppVm',
                 size: size,
                 resolve: {
-                    user: function () {
+                    user: function() {
                         return $localStorage.user;
                     }
                 }
             });
 
             modalInstance.result
-                .then(function (app) {
+                .then(function(app) {
                     app.name = app.name.$$state.value;
                     app.dsn = app.dsn.$$state.value;
 
                     dashboardService.registerApp(app)
-                        .then(function (response) {
+                        .then(function(response) {
                             dashboardVm.apps.push(response.data);
                         })
-                        .catch(function (error) {
+                        .catch(function(error) {
                             $log.error(error);
                         });
-                }, function () {
+                }, function() {
                     $log.info('Modal dismissed at: ' + _.now());
                 });
         };
@@ -129,37 +133,49 @@
         }
 
         function addUser(application) {
-            dashboardVm.users[application._id] = dashboardVm.users[application._id].$$state.value;
+            $log.info(dashboardVm.users[application._id]);
             var user = angular.copy(dashboardVm.users[application._id]);
 
             // Refresh form
             dashboardVm.userForms[application._id].$setPristine();
             dashboardVm.userForms[application._id].$setDirty();
 
-            $log.info(user);
             userService.getUser(user)
-              .then(function(response) {
-                  var user = response.data;
+                .then(function(response) {
+                    var user = response.data;
 
-                  if (_.isNull(user)) {
-                      dashboardVm.doesntExist = true;
-                  }
-                  else {
-                      application.users.push(user);
+                    if (_.isNull(user)) {
+                        dashboardVm.doesntExists[application._id] = true;
+                    }
+                    else {
+                        dashboardService.userExists(user._id, application._id)
+                            .then(function(response) {
+                                if (response.data) {
+                                    application.users.push(user);
 
-                      dashboardService.updateApp(application)
-                          .then(function (response) {
-                              dashboardVm.users[application._id] = "";
-                              dashboardVm.doesntExist = false;
-                          })
-                          .catch(function (error) {
-                              $log.error(error);
-                          });
-                  }
-              })
-              .catch(function(error) {
-                  $log.warn(error);
-              });
+                                    dashboardService.updateApp(application)
+                                        .then(function(response) {
+                                            dashboardVm.users[application._id] = "";
+                                            dashboardVm.doesntExists[application._id] = false;
+                                            dashboardVm.alreadyExists[application._id] = false;
+                                        })
+                                        .catch(function(error) {
+                                            $log.error(error);
+                                        });
+                                }
+                                else {
+                                    dashboardVm.alreadyExists[application._id] = true;
+                                }
+                            })
+                            .catch(function(error) {
+                                $log.error(error);
+                            });
+
+                    }
+                })
+                .catch(function(error) {
+                    $log.warn(error);
+                });
         };
     }
 })();

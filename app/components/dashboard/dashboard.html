@@ -53,9 +53,10 @@
                     </div>
                     <span ng-show="userForm.email.$invalid && userForm.email.$dirty && !userForm.email.$error.unique"
                       class="help-block" style="font-size: 10pt; margin:0px;">Email address is not properly formated.</span>
-                    <span ng-show="dashboardVm.doesntExist"
-                      class="help-block" style="font-size: 10pt; margin:0px; color: #d9534f;">User hasn't registered system on our system.</span>
-                    <span ng-show="userForm.email.$error.unique" class="help-block" style="font-size: 10pt; margin:0px;">User is already added.</span>
+                    <span ng-show="dashboardVm.doesntExists[app._id] && !userForm.email.$invalid"
+                      class="help-block" style="font-size: 10pt; margin:0px; color: #d9534f;">User hasn't registered on our system.</span>
+                    <span ng-show="dashboardVm.alreadyExists[app._id] && !dashboardVm.doesntExists[app._id] && !userForm.email.$invalid"
+                      class="help-block" style="font-size: 10pt; margin:0px; color: #d9534f;">User is already a member of app.</span>
                   </div>
                 </form>
               </div>
