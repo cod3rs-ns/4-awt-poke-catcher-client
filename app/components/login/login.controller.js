@@ -22,7 +22,7 @@
                     var token = response.data.token;
 
                     if (!_.isUndefined(token)) {
-                        loginVm.wrongLogin = true;
+                        loginVm.wrongLogin = false;
 
                         var tokenPayload = jwtHelper.decodeToken(token);
                         $http.defaults.headers.common[CONFIG.AUTH_TOKEN] = token;

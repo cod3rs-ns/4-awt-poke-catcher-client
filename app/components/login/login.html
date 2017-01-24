@@ -1,58 +1,43 @@
 <div class="jumbotron jumbotron-header" style="">
   <h2>Sign In for Poke Catcher</h3>
-  <h4>Track error in every part of your stack.</h5>
+    <h4>Track error in every part of your stack.</h5>
 </div>
 <div class="container">
   <div class="row">
-      <div class="col-xs-12 col-md-8">
-        <div class="alert alert-danger" role="alert" ng-if="loginVm.wrongLogin">
-            {{loginVm.message}}
-        </div>
-
-        <form role="form" ng-submit="loginVm.auth();" >
-          <!-- Username register input field -->
-          <div class="form-group">
-            <label for="username">Username</label>
-            <input type="text" class="form-control" id="username"
-                ng-model="loginVm.credentials.username"
-                placeholder="Username...">
-          </div>
-
-          <!-- Password register input field -->
-          <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" class="form-control" id="password"
-                ng-model="loginVm.credentials.password"
-                placeholder="Password...">
-          </div>
-
-          <!-- Submit button -->
-          <button type="submit" class="btn btn-success btn-lg">Sign in</button>
-        </form>
+    <div class="col-xs-12 col-md-8">
+      <div class="alert alert-danger" role="alert" ng-if="loginVm.wrongLogin">
+        {{loginVm.message}}
       </div>
 
-      <div class="col-xs-12 col-md-4">
-        <div>
-          <h4>Lorem Ipsum I</h4>
-          <p>
-            Lorem ipsum dolor sit amet, duo at mollis omnium. Vix quem molestie cu, vim ad nibh probatus,
-            eam et diceret definiebas. Et eos essent volumus, ius ne audiam alterum scriptorem, iusto graece
-            voluptatibus has in. Mea homero pericula facilisis ex. An sea enim graeci suscipit, ubique perfecto
-            id quo. Cu est ipsum dicunt pertinax, zril semper platonem ea vim, numquam persecuti ex pri.
-            Usu justo qualisque ut, cu quo invenire gloriatur, wisi choro tollit pri ex.
-          </p>
+      <form role="form" ng-submit="loginVm.auth();">
+        <!-- Username register input field -->
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" class="form-control" id="username" ng-model="loginVm.credentials.username" placeholder="Username...">
         </div>
 
-        <div>
-          <h4>Lorem Ipsum II</h4>
-          <p>
-            Lorem ipsum dolor sit amet, duo at mollis omnium. Vix quem molestie cu, vim ad nibh probatus,
-            eam et diceret definiebas. Et eos essent volumus, ius ne audiam alterum scriptorem, iusto graece
-            voluptatibus has in. Mea homero pericula facilisis ex. An sea enim graeci suscipit, ubique perfecto
-            id quo. Cu est ipsum dicunt pertinax, zril semper platonem ea vim, numquam persecuti ex pri.
-            Usu justo qualisque ut, cu quo invenire gloriatur, wisi choro tollit pri ex.
-          </p>
+        <!-- Password register input field -->
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" class="form-control" id="password" ng-model="loginVm.credentials.password" placeholder="Password...">
         </div>
+
+        <!-- Submit button -->
+        <button type="submit" class="btn btn-success btn-lg">Sign in</button>
+      </form>
+    </div>
+
+    <div class="col-xs-12 col-md-4" style="text-align:center">
+      <div class="service-box">
+        <i class="fa fa-4x fa-bug text-primary sr-icons"></i>
+        <h3>Quickly diagnose and fix issues</h3>
+        <p class="text-muted"> Know what’s breaking and how to reproduce the problem, without waiting for user reports.</p>
       </div>
+      <div class="service-box">
+        <i class="fa fa-4x fa-globe text-primary sr-icons"></i>
+        <h3>See the impact of each release</h3>
+        <p class="text-muted">If things break, you’ll know where errors are happening, how often they happen, and who is affected.</p>
+      </div>
+    </div>
   </div>
 </div>
